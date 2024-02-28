@@ -34,7 +34,12 @@ int main(int argc, char* argv[]) {
         error_handling("server bind() error !");
     }
 
-    //3.使用listen将server端的socket转为被动接收状态
+    //3.使用listen将server端的socket转为 <被动接收连接请求> 的状态
+    //相当于：对指定socket开启监听，这里是对server端socket进行监听，看是否有connect发来
+    //socket默认是主动受理连接请求 的状态，listen可使其变为被动状态，即模拟服务端
+    //listen参数2：代表半连接队列的容量，即相应socket可以排队的最大连接个数
+    //这里排满5个，仍没有一个被accept的话，就不再接收client发来的connect请求
+    //accept一个connect请求，则半连接队列移出一个connect
     if (listen(server_socket, 5) == -1)
     {
         error_handling("listen() error !");
@@ -42,9 +47,9 @@ int main(int argc, char* argv[]) {
     printf("server listening...\n");
 
     //4.server端调用accept，主动受理客户端发来的连接请求
+    //accept返回一个已经连接的socket的描述字，表征了一次完整的 TCP connection
     struct sockaddr_in client_protocal_addr;
     socklen_t client_protocal_addr_size = sizeof(client_protocal_addr);
-    //accept返回一个已经连接的socket的描述字，表征了一次connection
     int connected_sock_desc = accept(
         server_socket,
         (struct sockaddr*)&client_protocal_addr,

@@ -31,7 +31,7 @@ int main(int argc, char* argv[])
     struct sockaddr_in server_address;
     memset(&server_address, 0, sizeof(server_address));
     server_address.sin_family = AF_INET;
-    server_address.sin_addr.s_addr = inet_addr(argv[1]);//通过gcc编译参数传入
+    server_address.sin_addr.s_addr = inet_addr(argv[1]);//通过gcc编译参数传入connect的ip地址+端口号
     server_address.sin_port = htons(atoi(argv[2]));
     if (connect(client_socket, (struct sockaddr*)&server_address, sizeof(server_address)) == -1)
     {

@@ -1,5 +1,5 @@
 #include <stdio.h>
-int main(int argc, char* argv[])
+int main(int argc, char* argv[])//测试C语言，通过gcc给main传递实参
 {
     int i;
     printf("argc = %d\n", argc);
